@@ -41,48 +41,37 @@ export function useCurrentChapter(chapters) {
   return current;
 }
 
-// Grid mode: the whole sheet shows its columns and every specified element
-// is labelled with the values the browser actually computed for it.
-function describe(el) {
-  const s = getComputedStyle(el);
-  const size = Math.round(parseFloat(s.fontSize));
-  const lead = s.lineHeight === 'normal' ? 'auto' : Math.round(parseFloat(s.lineHeight));
-  const weight = Math.round(parseFloat(s.fontWeight));
-  return `${el.dataset.spec}  ${size}/${lead}  ${weight}`;
-}
-
-export function useGridMode() {
-  const [on, setOn] = useState(false);
-
+// Spreads rise into place as they reach the reader, each once. Under reduced
+// motion everything is simply there.
+export function useReveal(still) {
   useEffect(() => {
-    const onKey = (e) => {
-      if (e.key !== 'g' && e.key !== 'G') return;
-      if (e.metaKey || e.ctrlKey || e.altKey) return;
-      const typing =
-        e.target instanceof Element && e.target.closest('input, textarea, select, [contenteditable]');
-      if (typing) return;
-      setOn((v) => !v);
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, []);
-
-  useEffect(() => {
-    const root = document.documentElement;
-    if (!on) {
-      delete root.dataset.grid;
+    const items = document.querySelectorAll('[data-reveal]');
+    if (still) {
+      for (const el of items) el.classList.add('is-revealed');
       return undefined;
     }
-    const label = () => {
-      for (const el of document.querySelectorAll('[data-spec]')) {
-        el.dataset.specText = describe(el);
-      }
-    };
-    root.dataset.grid = 'on';
-    label();
-    window.addEventListener('resize', label);
-    return () => window.removeEventListener('resize', label);
-  }, [on]);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.12 },
+    );
+    for (const el of items) observer.observe(el);
+    return () => observer.disconnect();
+  }, [still]);
+}
 
-  return [on, () => setOn((v) => !v)];
+// True once the page has scrolled, so the running head can show its edge.
+export function useScrolled() {
+  const [scrolled, setScrolled] = useState(() => window.scrollY > 4);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return scrolled;
 }

@@ -1,17 +1,18 @@
 import { chapters, foreword, links, materials, person, roleLine } from './content';
 import Applications, { Out } from './manual/Applications';
-import Construction from './manual/Construction';
-import { useGridMode, useReducedMotion } from './manual/hooks';
+import Card from './manual/Card';
+import { useReducedMotion, useReveal } from './manual/hooks';
 import Logotype from './manual/Logotype';
+import { moonTonight } from './manual/Moon';
 import { useSmoothScroll } from './manual/smooth';
-import RunningHead, { GridOverlay } from './manual/RunningHead';
+import RunningHead from './manual/RunningHead';
 
 function Chapter({ id, number, title, children, className = '' }) {
   return (
     <section id={id} className={`chapter ${className}`} aria-labelledby={`${id}-title`}>
-      <header className="chapter-head sheet">
+      <header className="chapter-head sheet" data-reveal>
         <p className="chapter-number tabular">{number}.0</p>
-        <h2 id={`${id}-title`} data-spec="Display">
+        <h2 id={`${id}-title`}>
           {title}
         </h2>
       </header>
@@ -20,18 +21,25 @@ function Chapter({ id, number, title, children, className = '' }) {
   );
 }
 
+// Every visit prints a fresh copy, dated, with the moon it was printed under.
+function printing() {
+  const date = new Intl.DateTimeFormat('en-GB', { dateStyle: 'long' }).format(new Date());
+  const { name, lit } = moonTonight();
+  const moon = name.endsWith('moon') ? name : `${name} moon`;
+  return `This copy printed ${date}, under a ${moon.toLowerCase()}, ${lit}% lit.`;
+}
+
 export default function App() {
   const still = useReducedMotion();
-  const [grid, toggleGrid] = useGridMode();
   useSmoothScroll(still);
+  useReveal(still);
 
   return (
     <>
       <a className="skip" href="#foreword">
         Skip to content
       </a>
-      <RunningHead grid={grid} onGrid={toggleGrid} still={still} />
-      {grid && <GridOverlay />}
+      <RunningHead still={still} />
 
       <main>
         <section id="cover" className="cover sheet" aria-labelledby="cover-title">
@@ -47,7 +55,7 @@ export default function App() {
             ))}
           </nav>
           <div className="colophon-block">
-            <h1 id="cover-title" data-spec="Lead">
+            <h1 id="cover-title">
               {person.name}
             </h1>
             <p>{roleLine}</p>
@@ -58,15 +66,15 @@ export default function App() {
               <Out href={person.resume}>Resume</Out>
             </p>
           </div>
-          <p className="cover-note" data-spec="Body">
+          <p className="cover-note">
             I build web products end to end: the interface, the backend behind it, and the AI
             features inside both.
           </p>
         </section>
 
         <Chapter id="foreword" number="1" title="Foreword">
-          <div className="foreword sheet">
-            <p className="lead" data-spec="Lead">
+          <div className="foreword sheet" data-reveal>
+            <p className="lead">
               {foreword[0]}
             </p>
             <p className="body">{foreword[1]}</p>
@@ -85,24 +93,14 @@ export default function App() {
           </div>
         </Chapter>
 
-        <Chapter id="construction" number="2" title="Construction">
-          <div className="sheet chapter-intro">
-            <p className="chapter-lead lead">
-              This site is built the way I build interfaces: a few tokens, one grid, components on
-              top. Press G, or the Grid button, to see them on every page.
-            </p>
-          </div>
-          <Construction />
-        </Chapter>
-
-        <Chapter id="applications" number="3" title="Applications">
+        <Chapter id="projects" number="2" title="Projects">
           <Applications />
         </Chapter>
 
-        <Chapter id="colophon" number="4" title="Colophon" className="colophon">
-          <div className="sheet colophon-body">
+        <Chapter id="colophon" number="3" title="Colophon" className="colophon">
+          <div className="sheet colophon-body" data-reveal>
             <p className="colophon-ask">For work, questions or a hello:</p>
-            <a className="email" href={`mailto:${person.email}`} data-spec="Display">
+            <a className="email" href={`mailto:${person.email}`}>
               {person.email}
             </a>
             <ul className="link-list">
@@ -112,9 +110,11 @@ export default function App() {
                 </li>
               ))}
             </ul>
+            <Card />
             <p className="colophon-note">
               Set in Host Grotesk. Two inks on white stock. Built with React and Vite.
             </p>
+            <p className="colophon-note">{printing()}</p>
             <p className="colophon-note">© {new Date().getFullYear()} {person.name}</p>
           </div>
         </Chapter>

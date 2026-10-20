@@ -25,8 +25,9 @@ export const materials = [
   ['Shipping', 'Docker, AWS S3, Vercel, Vitest, Jest'],
 ];
 
-// Selected work from github.com/astrokachi. `image` is a 16:10 screenshot in
-// /public/plates; leave it out and the plate shows as pending. `video` is an
+// Selected work from github.com/astrokachi. `line` is the one line shown in
+// the index. `image` is a 16:10 screenshot in /public/plates, with `caption`
+// under it; without one the plate is set as a title card. `video` is an
 // optional screen recording (16:10 .mp4, a few seconds, no sound); it plays in
 // the plate with `image` as its poster. `live`, `repo` and `client` are optional.
 const plate = (name) => `${import.meta.env.BASE_URL}plates/${name}.webp`;
@@ -34,10 +35,12 @@ const plate = (name) => `${import.meta.env.BASE_URL}plates/${name}.webp`;
 export const projects = [
   {
     name: 'Vox',
+    line: 'An assistant for posting on X',
+    caption: 'Signing in with X.',
     summary:
-      'An assistant for X. It drafts replies to posts in the tone you pick, schedules your own posts, and signs you in with your X account.',
+      'An assistant for X. Tell it what you want to say and it drafts posts and replies in the background, remembers earlier conversations, schedules posts, and signs you in with your X account.',
     role: 'Full stack',
-    stack: 'Express, PostgreSQL, BullMQ, Socket.IO, AI SDK, OAuth 2.0',
+    stack: 'Express, PostgreSQL, pgvector, BullMQ, Socket.IO, AI SDK, OAuth 2.0',
     year: '2025-2026',
     image: plate('vox'),
     live: 'https://voxbeta.vercel.app',
@@ -46,10 +49,12 @@ export const projects = [
   },
   {
     name: 'MonetAI',
+    line: 'Bank statements, read by AI',
+    caption: 'Choosing where the model runs.',
     summary:
-      'Upload a bank statement and get a structured read of your spending. The model can run in your browser, so the statement never leaves your device.',
+      'Upload a bank statement and get a plain read of where the money went. The analysis can run on a model inside your browser, or on a hosted one.',
     role: 'Full stack',
-    stack: 'Next.js, WebLLM, AI SDK, pdf.js',
+    stack: 'Next.js, WebLLM, WebGPU, AI SDK, LiteParse',
     year: '2026',
     image: plate('monetai'),
     live: 'https://monetai-qciu.onrender.com',
@@ -57,20 +62,24 @@ export const projects = [
   },
   {
     name: 'Model Chess Arena',
+    line: 'AI models playing chess',
     summary:
-      'AI models play chess against each other. A rules engine checks every move, and each model keeps a rating and a record across matches.',
+      'A place for AI models to play chess against each other. Built so far: a chess rules engine written from scratch, a board to play on, and the schema for matches, moves and ratings.',
     role: 'Full stack',
-    stack: 'Next.js, Prisma, PostgreSQL, AI SDK',
+    stack: 'Next.js, TypeScript, Prisma, PostgreSQL',
     year: '2025',
+    status: 'In progress',
     repo: 'https://github.com/astrokachi/Model-Chess-Arena',
   },
   {
     name: 'Resq',
+    line: 'Emergency payments between friends',
     summary:
-      "Lets trusted friends bill each other's cards in an emergency, with spending limits and approval rules. Payments run through Paystack.",
+      'Lets trusted friends cover each other in an emergency, with limits on what each can spend. Built so far: Google sign-in, the trust model and Paystack checkout.',
     role: 'Full stack',
-    stack: 'NestJS on Fastify, PostgreSQL, TypeORM, Google OAuth 2.0, React',
+    stack: 'NestJS on Fastify, PostgreSQL, TypeORM, Google OAuth 2.0, Paystack',
     year: '2025',
+    status: 'In progress',
     repo: 'https://github.com/astrokachi/paystack-biller',
   },
 ];
@@ -89,7 +98,6 @@ export const roleLine = [person.role, person.company].filter(Boolean).join(', ')
 export const chapters = [
   { id: 'cover', number: '0', title: 'Cover' },
   { id: 'foreword', number: '1', title: 'Foreword' },
-  { id: 'construction', number: '2', title: 'Construction' },
-  { id: 'applications', number: '3', title: 'Applications' },
-  { id: 'colophon', number: '4', title: 'Colophon' },
+  { id: 'projects', number: '2', title: 'Projects' },
+  { id: 'colophon', number: '3', title: 'Colophon' },
 ];

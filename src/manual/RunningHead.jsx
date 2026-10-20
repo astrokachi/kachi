@@ -1,16 +1,16 @@
 import { chapters } from '../content';
-import { useCurrentChapter } from './hooks';
+import { useCurrentChapter, useScrolled } from './hooks';
 import Logotype from './Logotype';
 
-export default function RunningHead({ grid, onGrid, still }) {
+export default function RunningHead({ still }) {
   const current = useCurrentChapter(chapters);
+  const scrolled = useScrolled();
 
   return (
-    <header className="head">
+    <header className="head" data-scrolled={scrolled || undefined}>
       <a className="head-mark" href="#cover" aria-label="astro, back to the cover">
         <Logotype still={still} title="astro" />
       </a>
-      <p className="head-title">Standards Manual</p>
       <p className="head-stamp" aria-live="polite">
         <span key={current.id} className="stamp">
           <span className="stamp-number">{current.number}.0</span> {current.title}
@@ -24,27 +24,7 @@ export default function RunningHead({ grid, onGrid, still }) {
           </a>
         ))}
       </nav>
-      <button
-        type="button"
-        className="head-grid"
-        aria-pressed={grid}
-        onClick={onGrid}
-        title="Show the grid and type specifications (G)"
-      >
-        Grid <kbd>G</kbd>
-      </button>
     </header>
   );
 }
 
-export function GridOverlay() {
-  return (
-    <div className="grid-overlay" aria-hidden="true">
-      <div className="sheet">
-        {Array.from({ length: 12 }, (_, i) => (
-          <span key={i} />
-        ))}
-      </div>
-    </div>
-  );
-}
