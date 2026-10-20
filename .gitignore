@@ -22,3 +22,13 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+.claude/
+.cursor/
+/dist
+
+# Design tooling scratch (screenshots, decision mocks, logs)
+.impeccable/mocks/
+.impeccable/review/
+.impeccable/questions/
+.impeccable/surface-brief-body.md
