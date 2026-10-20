@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+# astro
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The portfolio of Kachi Ozoemena, a software engineer who builds web products end to end: interfaces, the backends behind them, and the AI features inside both.
 
-## Available Scripts
+The site is laid out like a graphics standards manual. A constructed logotype opens it, and four chapters follow:
 
-In the project directory, you can run:
+- **Foreword:** who I am and what I work with.
+- **Construction:** the site documents its own grid, inks, type and motion, measured from the live page.
+- **Applications:** selected projects, including Vox, MonetAI, Model Chess Arena and Resq.
+- **Colophon:** how to reach me.
 
-### `npm start`
+Press **G** anywhere on the site to overlay the grid and see each element's computed type values.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Stack
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+React 18 and Vite, plain CSS with custom properties, Host Grotesk (self-hosted), Lenis for smooth scrolling, Phosphor icons. Deployed on Vercel.
 
-### `npm test`
+## Run it locally
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Requires Node 18 or newer.
 
-### `npm run build`
+```bash
+npm install
+npm run dev       # development server
+npm run build     # production build into build/
+npm run preview   # serve the production build
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Where things live
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+| Path | What it holds |
+|---|---|
+| `src/content.js` | All copy, links, materials and projects. Most edits happen here. |
+| `src/App.jsx` | The page: cover and chapters. |
+| `src/manual/` | Logotype, running head, Construction plates, Applications, grid mode, smooth scroll. |
+| `src/index.css` | Design tokens (`:root`) and every style. |
+| `public/plates/` | Project screenshots and recordings. |
+| `DESIGN.md` | The design system: tokens, type, grid, components and rules. |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Adding a project
 
-### `npm run eject`
+Add an entry to `projects` in `src/content.js`:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```js
+{
+  name: 'Project name',
+  summary: 'One or two sentences on what it does.',
+  role: 'Full stack',
+  stack: 'Next.js, PostgreSQL',
+  year: '2026',
+  image: plate('project-name'),                              // 16:10 screenshot in public/plates/
+  video: `${import.meta.env.BASE_URL}plates/project-name.mp4`, // optional screen recording
+  live: 'https://example.com',                               // optional
+  repo: 'https://github.com/astrokachi/project-name',         // optional
+}
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Without an `image`, the plate shows as pending. A `video` plays muted and looping while it is on screen, with the image as its poster, and stays paused for visitors who prefer reduced motion.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Accessibility
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Keyboard navigation and visible focus throughout, a skip link, and contrast checked against the stock colour. With reduced motion turned on, the logotype drawing, smooth scrolling and video autoplay are all switched off.
 
-## Learn More
+## Contact
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[astrokachi@gmail.com](mailto:astrokachi@gmail.com) · [GitHub](https://github.com/astrokachi) · [LinkedIn](https://www.linkedin.com/in/ozoemenaekachi)
