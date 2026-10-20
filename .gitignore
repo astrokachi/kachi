@@ -27,8 +27,6 @@ yarn-error.log*
 .cursor/
 /dist
 
-# Design tooling scratch (screenshots, decision mocks, logs)
-.impeccable/mocks/
-.impeccable/review/
-.impeccable/questions/
-.impeccable/surface-brief-body.md
+# Design tooling (local only)
+.impeccable/
+.impeccable*
